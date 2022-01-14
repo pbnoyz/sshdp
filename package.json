@@ -1,0 +1,55 @@
+{
+  "name": "sshdp",
+  "version": "0.1.0",
+  "description": "Deploy your build to remote machine over SSH",
+  "engines": {
+    "node": ">=12.11.0"
+  },
+  "main": "dist/index.js",
+  "bin": {
+    "sshdp": "dist/cli.js"
+  },
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "ZHOU Qiudi",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/pbnoyz/sshdp.git"
+  },
+  "scripts": {
+    "prepublishOnly": "npm build",
+    "build": "rimraf dist && tsup src/cli.ts src/index.ts --format cjs,esm --dts",
+    "lint": "eslint src/**"
+  },
+  "keywords": [
+    "ssh",
+    "cli",
+    "typescript"
+  ],
+  "dependencies": {
+    "archiver": "^5.3.0",
+    "bundle-require": "^2.2.0",
+    "cac": "^6.7.12",
+    "colorette": "^2.0.16",
+    "esbuild": "^0.14.11",
+    "ssh2-promise": "^1.0.2",
+    "tempy": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/archiver": "^5.3.1",
+    "@types/node": "^17.0.8",
+    "@types/ssh2": "^0.5.50",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0",
+    "eslint-define-config": "^1.2.2",
+    "eslint-plugin-node": "^11.1.0",
+    "esno": "^0.13.0",
+    "rimraf": "^3.0.2",
+    "tsup": "^5.11.11",
+    "type-fest": "^2.9.0",
+    "typescript": "^4.5.4"
+  }
+}
