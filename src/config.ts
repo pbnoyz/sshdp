@@ -1,5 +1,5 @@
 import { bundleRequire } from 'bundle-require'
-import path, { isAbsolute, parse } from 'path'
+import path, { isAbsolute, parse } from 'node:path'
 import { SetRequired, Simplify } from 'type-fest'
 import { PrettyError } from './errors'
 

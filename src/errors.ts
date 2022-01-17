@@ -1,6 +1,6 @@
 // Copy from https://github.com/egoist/tsup
 
-import { isMainThread, parentPort } from 'worker_threads'
+import { isMainThread, parentPort } from 'node:worker_threads'
 import * as colors from 'colorette'
 
 export class PrettyError extends Error {

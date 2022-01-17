@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-nested-ternary */
 // Copy from https://github.com/egoist/tsup
 
 import * as colors from 'colorette'

@@ -1,7 +1,9 @@
 import tempy from 'tempy'
-import { create } from 'archiver'
-import { join } from 'path'
-import { createWriteStream } from 'fs'
+import archiver from 'archiver'
+import { join } from 'node:path'
+import { createWriteStream } from 'node:fs'
+
+const { create }  = archiver
 
 export const zip = (
   dirpath: string,

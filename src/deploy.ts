@@ -1,6 +1,6 @@
 import * as colors from 'colorette'
-import { readFileSync, rmSync } from 'fs'
-import path from 'path'
+import { readFileSync, rmSync } from 'node:fs'
+import path from 'node:path'
 import type SSHConfig from 'ssh2-promise/lib/sshConfig'
 import type { NormalizedOptions } from './config'
 import { createLogger } from './log'
@@ -18,16 +18,20 @@ export async function deploy(dir: string, options: NormalizedOptions) {
     await finalWork(session, options)
 
     logger.success('done!')
-  } catch (err) {
-    logger.error('something wrong!')
-    throw err
+  } catch (error) {
+    if (error instanceof Buffer) {
+      // ? cannot figure out whether it is actually an error
+      console.log(error.toString())
+    } else {
+      throw error
+    }
   } finally {
     await session.close()
   }
 }
 
 async function connect(options: NormalizedOptions) {
-  const { host, port, username } = options
+  const { host, port, username, keyFile, password } = options
 
   const sshConfig: SSHConfig = {
     host,
@@ -35,10 +39,10 @@ async function connect(options: NormalizedOptions) {
     username,
   }
 
-  if (options.keyFile) {
-    sshConfig.privateKey = readFileSync(options.keyFile)
+  if (keyFile) {
+    sshConfig.privateKey = readFileSync(keyFile)
   } else {
-    sshConfig.password = options.password
+    sshConfig.password = password
   }
 
   const session = createSession(sshConfig)
@@ -94,7 +98,10 @@ async function upload(
   await session.upload(localArchivePath, remoteArchivePath)
   await session.unzip(remoteArchivePath, releasesPath + '/')
 
-  logger.success('ssh', `📂 Uploaded and decompressed to ${colors.blue(target)}`)
+  logger.success(
+    'ssh',
+    `📂 Uploaded and decompressed to ${colors.blue(target)}`
+  )
 
   // Update the symlink
   await session.createSymlink(target, deployPath)

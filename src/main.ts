@@ -1,6 +1,7 @@
 import { cac } from 'cac'
-import { existsSync, readFileSync } from 'fs'
-import { join } from 'path'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { loadConfig, normalizeConfig } from './config'
 import { deploy } from './deploy'
 import { PrettyError } from './errors'
@@ -35,7 +36,7 @@ export async function main() {
 
   cli.help()
 
-  const pkgPath = join(__dirname, '../package.json')
+  const pkgPath = join(dirname(fileURLToPath(import.meta.url)), '../package.json')
   cli.version(JSON.parse(readFileSync(pkgPath, 'utf-8')).version)
 
   cli.parse(process.argv, { run: false })
